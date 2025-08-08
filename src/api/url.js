@@ -17,3 +17,20 @@ export const sync_all_status = domain + "/sync/all-status";
 
 // 全量更新 - 停止同步任务
 export const sync_all_stop = domain + "/sync/all-stop";
+
+// 金叉图生成
+export const golden_cross = domain + "/golden_cross";
+
+export const analyze_batch = domain + "/analyze-batch";
+
+export const history_cache_count = domain + "/history_cache_count";
+
+export const low_price_stocks = domain + "/low-price-stocks";
+
+export const list_low_price_stock_files =
+  domain + "/list_low_price_stock_files";
+
+export const is_fund_inflow_continuous = domain + "/is_fund_inflow_continuous";
+
+export const fetch_and_update_margin_by_code =
+  domain + "/fetch_and_update_margin_by_code";
