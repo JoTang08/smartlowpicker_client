@@ -47,18 +47,24 @@
           label="涨跌幅（%）"
           width="100"
         />
-        <!-- 新增操作列 -->
-        <el-table-column label="操作" width="140">
-          <template #default="{ row }">
-            <el-button
-              type="primary"
-              size="small"
-              @click="checkFundInflow(row.股票代码)"
-            >
-              查看资金流入
-            </el-button>
-          </template>
-        </el-table-column>
+        <el-table-column label="操作" width="280">
+        <template #default="{ row }">
+          <el-button
+            type="success"
+            size="small"
+            @click="addToWatchlist(row)"
+          >
+            关注
+          </el-button>
+          <el-button
+            type="danger"
+            size="small"
+            @click="removeFromWatchlist(row.股票代码)"
+          >
+            取关
+          </el-button>
+        </template>
+      </el-table-column>
       </el-table>
 
       <el-empty
@@ -105,7 +111,7 @@ import {
   low_price_stocks,
   list_low_price_stock_files,
   is_fund_inflow_continuous,
-  fetch_and_update_margin_by_code,
+  add_to_watchlist, remove_from_watchlist
 } from "@url";
 
 // 新增单个资金流入接口地址
@@ -161,23 +167,42 @@ const fetchLowPriceStocks = async () => {
   }
 };
 
-// 点击查看资金流入，调用接口
-const checkFundInflow = async (code) => {
-  selectedFundInfo.value = null;
-  showDialog.value = true;
+// 添加到关注列表
+const addToWatchlist = async (row) => {
   try {
     const res = await request({
-      url: fetch_and_update_margin_by_code,
+      url: add_to_watchlist,
       method: "post",
-      data: { code, days: 30 },
+      data: {
+        code: row.股票代码,
+        name: row.股票名称,
+      },
     });
     if (res.code === 0) {
-      selectedFundInfo.value = res.data;
+      ElMessage.success("已添加到关注列表");
     } else {
-      selectedFundInfo.value = { code, fund_inflow: false, error: res.message };
+      ElMessage.error(res.message || "添加失败");
     }
   } catch (error) {
-    selectedFundInfo.value = { code, fund_inflow: false, error: error.message };
+    ElMessage.error(error.message || "添加失败");
+  }
+};
+
+// 从关注列表移除
+const removeFromWatchlist = async (code) => {
+  try {
+    const res = await request({
+      url: remove_from_watchlist,
+      method: "post",
+      data: { code },
+    });
+    if (res.code === 0) {
+      ElMessage.success("已从关注列表移除");
+    } else {
+      ElMessage.error(res.message || "移除失败");
+    }
+  } catch (error) {
+    ElMessage.error(error.message || "移除失败");
   }
 };
 

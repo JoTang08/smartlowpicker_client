@@ -8,9 +8,9 @@
 
         <el-form-item label="分析时长">
           <el-radio-group v-model="days">
-            <el-radio-button :label="90" :value="90">三个月</el-radio-button>
-            <el-radio-button :label="180" :value="180">半年</el-radio-button>
-            <el-radio-button :label="270" :value="270">九个月</el-radio-button>
+            <el-radio-button label="90" value="90" />
+            <el-radio-button label="180" value="180" />
+            <el-radio-button label="270" value="270" />
           </el-radio-group>
         </el-form-item>
 
@@ -23,11 +23,15 @@
           >
             开始分析
           </el-button>
+
+          <el-button type="primary" @click="getResult" :disabled="false">
+            获取结果
+          </el-button>
         </el-form-item>
       </el-form>
     </el-card>
 
-    <el-divider>分析结果</el-divider>
+    <el-divider>分析结果，共{{ results.length }}条数据</el-divider>
     <el-table
       v-if="results.length"
       :data="results"
@@ -41,7 +45,12 @@
       <el-table-column prop="当前价" label="当前价" width="100" />
       <el-table-column prop="阶段最低" label="最低价" width="120" />
       <el-table-column prop="阶段最高" label="最高价" width="120" />
-      <el-table-column prop="涨跌幅（%）" label="涨跌幅（%）" width="100" />
+      <el-table-column
+        prop="涨跌幅（%）"
+        sortable
+        label="涨跌幅（%）"
+        width="100"
+      />
     </el-table>
 
     <el-empty v-else description="暂无数据" style="margin-top: 40px" />
@@ -52,9 +61,9 @@
 import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import request from "@request";
-import { analyze_batch, history_cache_count } from "@url";
+import { analyze_batch, history_cache_count, analyze_result } from "@url";
 
-const days = ref(90);
+const days = ref("90");
 const stockCount = ref(0);
 const results = ref([]);
 const loading = ref(false);
@@ -83,7 +92,7 @@ const handleStart = async () => {
       data: {
         start: 0,
         end: Number(stockCount.value),
-        days: days.value,
+        days: Number(days.value),
       },
       timeout: 60000,
     });
@@ -97,6 +106,25 @@ const handleStart = async () => {
     ElMessage.error(error.message || "请求异常");
   } finally {
     loading.value = false;
+  }
+};
+const getResult = async () => {
+  try {
+    const res = await request({
+      url: analyze_result,
+      method: "post",
+      data: {
+        days: Number(days.value),
+      },
+    });
+    if (res.code === 0) {
+      results.value = res.data;
+      ElMessage.success(`成功获取结果，共 ${res.data.length} 条`);
+    } else {
+      ElMessage.error(res.message || "获取结果失败");
+    }
+  } catch (error) {
+    ElMessage.error(error.message || "请求异常");
   }
 };
 

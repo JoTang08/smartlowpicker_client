@@ -13,6 +13,7 @@
       <template #title>低位信号监控</template>
       <el-menu-item index="/low">批量分析</el-menu-item>
       <el-menu-item index="/low-result">结果展示</el-menu-item>
+      <el-menu-item index="/watched-stocks">关注列表</el-menu-item>
     </el-sub-menu>
     <el-menu-item index="/pool">股票池管理</el-menu-item>
     <el-menu-item index="/volume">成交量 & 资金流向</el-menu-item>

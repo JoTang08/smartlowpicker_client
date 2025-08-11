@@ -6,7 +6,7 @@ import DataSyncSingle from "../views/DataSyncSingle.vue";
 // import GoldenCross from "../views/GoldenCross.vue";
 import LowSignal from "../views/LowSignal.vue";
 import LowResult from "../views/LowResult.vue";
-// import StockPool from "../views/StockPool.vue";
+import WatchedStocks from "../views/WatchedStocks.vue";
 // import VolumeAnalysis from "../views/VolumeAnalysis.vue";
 
 const routes = [
@@ -16,7 +16,7 @@ const routes = [
   //   { path: "/golden", component: GoldenCross },
   { path: "/low", component: LowSignal },
   { path: "/low-result", component: LowResult },
-  //   { path: "/pool", component: StockPool },
+    { path: "/watched-stocks", component: WatchedStocks },
   //   { path: "/volume", component: VolumeAnalysis },
 ];
 

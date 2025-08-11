@@ -23,6 +23,8 @@ export const golden_cross = domain + "/golden_cross";
 
 export const analyze_batch = domain + "/analyze-batch";
 
+export const analyze_result = domain + "/analyze_batch_data";
+
 export const history_cache_count = domain + "/history_cache_count";
 
 export const low_price_stocks = domain + "/low-price-stocks";
@@ -32,5 +34,10 @@ export const list_low_price_stock_files =
 
 export const is_fund_inflow_continuous = domain + "/is_fund_inflow_continuous";
 
-export const fetch_and_update_margin_by_code =
-  domain + "/fetch_and_update_margin_by_code";
+export const update_margin_data = domain + "/update_margin_data";
+
+export const add_to_watchlist = "/watchlist/add";
+export const remove_from_watchlist = "/watchlist/remove";
+
+export const get_watched_stocks = "/get_watched_stocks";
+export const query_margin_data_by_code = "/query_margin_data_by_code";
