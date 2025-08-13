@@ -36,8 +36,11 @@ export const is_fund_inflow_continuous = domain + "/is_fund_inflow_continuous";
 
 export const update_margin_data = domain + "/update_margin_data";
 
-export const add_to_watchlist = "/watchlist/add";
-export const remove_from_watchlist = "/watchlist/remove";
+export const add_to_watchlist = domain + "/watchlist/add";
+export const remove_from_watchlist = domain + "/watchlist/remove";
 
-export const get_watched_stocks = "/get_watched_stocks";
-export const query_margin_data_by_code = "/query_margin_data_by_code";
+export const get_watched_stocks = domain + "/get_watched_stocks";
+export const query_margin_data_by_code = domain + "/query_margin_data_by_code";
+
+export const get_boards = domain + "/boards";
+export const get_board_members = domain + "/get_board_members";

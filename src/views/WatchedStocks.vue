@@ -8,7 +8,7 @@
         margin-bottom: 12px;
       "
     >
-      <h3>我的关注股票列表</h3>
+      <h3>我的关注股票列表{{ stocks.length }}</h3>
       <el-button
         type="primary"
         @click="fetchMarginData"
@@ -28,6 +28,7 @@
       height="400"
       v-if="stocks.length > 0"
     >
+      <el-table-column type="index" label="序号" width="80" />
       <el-table-column prop="股票代码" label="代码" width="120" />
       <el-table-column prop="股票名称" label="名称" width="180" />
       <el-table-column label="操作" width="220">

@@ -40,6 +40,7 @@
       border
       height="600"
     >
+      <el-table-column type="index" label="序号" width="60" />
       <el-table-column prop="股票代码" label="代码" width="100" />
       <el-table-column prop="股票名称" label="名称" width="150" />
       <el-table-column prop="当前价" label="当前价" width="100" />

@@ -36,6 +36,7 @@
         border
         height="600"
       >
+        <el-table-column type="index" label="序号" width="80" />
         <el-table-column prop="股票代码" label="代码" width="100" />
         <el-table-column prop="股票名称" label="名称" width="150" />
         <el-table-column prop="当前价" label="当前价" width="100" />
@@ -48,23 +49,19 @@
           width="100"
         />
         <el-table-column label="操作" width="280">
-        <template #default="{ row }">
-          <el-button
-            type="success"
-            size="small"
-            @click="addToWatchlist(row)"
-          >
-            关注
-          </el-button>
-          <el-button
-            type="danger"
-            size="small"
-            @click="removeFromWatchlist(row.股票代码)"
-          >
-            取关
-          </el-button>
-        </template>
-      </el-table-column>
+          <template #default="{ row }">
+            <el-button type="success" size="small" @click="addToWatchlist(row)">
+              关注
+            </el-button>
+            <el-button
+              type="danger"
+              size="small"
+              @click="removeFromWatchlist(row.股票代码)"
+            >
+              取关
+            </el-button>
+          </template>
+        </el-table-column>
       </el-table>
 
       <el-empty
@@ -111,7 +108,8 @@ import {
   low_price_stocks,
   list_low_price_stock_files,
   is_fund_inflow_continuous,
-  add_to_watchlist, remove_from_watchlist
+  add_to_watchlist,
+  remove_from_watchlist,
 } from "@url";
 
 // 新增单个资金流入接口地址
