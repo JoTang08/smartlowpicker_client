@@ -59,10 +59,14 @@
               <span
                 :style="{
                   color:
-                    row.涨跌幅 > 0 ? 'green' : row.涨跌幅 < 0 ? 'red' : 'black',
+                    row?.涨跌幅 > 0
+                      ? 'green'
+                      : row?.涨跌幅 < 0
+                      ? 'red'
+                      : 'black',
                 }"
               >
-                {{ row.涨跌幅.toFixed(2) }}
+                {{ Number(row.涨跌幅).toFixed(2) }}
               </span>
             </template>
           </el-table-column>
@@ -108,13 +112,14 @@ const fetchBoards = async () => {
 const fetchMembers = async (boardName) => {
   try {
     members.value = [];
-    const res = await request({
+    let res = await request({
       url: get_board_members,
       method: "post",
       data: { boardName },
     });
     if (res.code === 0) {
       members.value = res.data || [];
+      console.log("members===>", members.value);
     } else {
       ElMessage.error(res.message || "获取成分股失败");
       members.value = [];

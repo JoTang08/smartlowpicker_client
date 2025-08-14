@@ -44,3 +44,5 @@ export const query_margin_data_by_code = domain + "/query_margin_data_by_code";
 
 export const get_boards = domain + "/boards";
 export const get_board_members = domain + "/get_board_members";
+
+export const get_margin_stocks = domain + "/get_margin_stocks";

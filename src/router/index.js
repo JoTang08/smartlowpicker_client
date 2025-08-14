@@ -7,7 +7,7 @@ import SectorBoard from "../views/SectorBoard.vue";
 import LowSignal from "../views/LowSignal.vue";
 import LowResult from "../views/LowResult.vue";
 import WatchedStocks from "../views/WatchedStocks.vue";
-// import VolumeAnalysis from "../views/VolumeAnalysis.vue";
+import ETFPage from "../views/ETFPage.vue";
 
 const routes = [
   { path: "/", component: Home },
@@ -17,7 +17,7 @@ const routes = [
   { path: "/low", component: LowSignal },
   { path: "/low-result", component: LowResult },
   { path: "/watched-stocks", component: WatchedStocks },
-  //   { path: "/volume", component: VolumeAnalysis },
+  { path: "/etf-page", component: ETFPage },
 ];
 
 export const router = createRouter({
