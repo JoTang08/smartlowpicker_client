@@ -31,14 +31,22 @@
       <el-table-column type="index" label="序号" width="80" />
       <el-table-column prop="股票代码" label="代码" width="120" />
       <el-table-column prop="股票名称" label="名称" width="180" />
-      <el-table-column label="操作" width="220">
+      <el-table-column label="操作" width="320">
         <template #default="{ row }">
           <el-button
             type="success"
             size="small"
             @click="showCachedMarginData(row.股票代码)"
           >
-            查看数据
+            查看融资融券
+          </el-button>
+          <el-button
+            type="primary"
+            size="small"
+            style="margin-left: 8px"
+            @click="showMainStockHolder(row)"
+          >
+            股东信息
           </el-button>
         </template>
       </el-table-column>
@@ -64,6 +72,41 @@
         <el-button @click="showDialog = false" size="small">关闭</el-button>
       </template>
     </el-dialog>
+    <!-- 股东信息弹窗 -->
+    <el-dialog
+      :title="holderTitle"
+      v-model="showHolderDialog"
+      width="700px"
+      @close="holderData = []"
+    >
+      <el-table
+        v-if="holderData.length"
+        :data="holderData"
+        style="width: 100%"
+        stripe
+        border
+        max-height="400"
+      >
+        <el-table-column type="index" label="序号" width="80" />
+        <el-table-column prop="股东名称" label="股东名称" />
+        <el-table-column prop="股本性质" label="股本性质" />
+        <el-table-column
+          prop="持股比例"
+          sortable
+          label="持股比例"
+          width="120"
+        />
+        <el-table-column prop="持股数量" label="持股数量" width="120" />
+        <el-table-column prop="公告日期" label="公告日期" width="120" />
+      </el-table>
+      <div v-else style="text-align: center; padding: 20px">暂无股东数据</div>
+
+      <template #footer>
+        <el-button @click="showHolderDialog = false" size="small"
+          >关闭</el-button
+        >
+      </template>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -75,13 +118,17 @@ import {
   get_watched_stocks,
   update_margin_data,
   query_margin_data_by_code,
+  query_latest_main_stock_holder,
 } from "@url";
 
 const stocks = ref([]);
 const loading = ref(false);
-
+const curCodeName = ref("");
 const showDialog = ref(false);
 const dialogData = ref(null);
+
+const showHolderDialog = ref(false); // 控制股东信息弹窗
+const holderData = ref([]); // 存放股东信息
 
 const fetchWatchedStocks = async () => {
   loading.value = true;
@@ -160,8 +207,32 @@ const csvText = computed(() => {
   return jsonToCsv(dialogData.value);
 });
 
+const holderTitle = computed(() => {
+  return curCodeName.value + "-" + "股东信息";
+});
+
 const clearDialogData = () => {
   dialogData.value = null;
+};
+const showMainStockHolder = async (row) => {
+  curCodeName.value = row.股票名称;
+  const code = row.股票代码;
+  holderData.value = [];
+  showHolderDialog.value = true;
+  try {
+    const res = await request({
+      url: query_latest_main_stock_holder,
+      method: "post",
+      data: { code: String(code) },
+    });
+    if (res.code === 0) {
+      holderData.value = res.data.length ? res.data : [];
+    } else {
+      ElMessage.error(res.message || "查询失败");
+    }
+  } catch (error) {
+    ElMessage.error(error.message || "请求异常");
+  }
 };
 
 const copyCsvToClipboard = async () => {

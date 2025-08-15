@@ -9,7 +9,7 @@
         margin-bottom: 12px;
       "
     >
-      <h3>ETF 列表（{{ etfList.length }}）</h3>
+      <h3>ETF 列表（{{ etfList.length }}）<span>⚠️无法查看股东信息，ETF是基金产品。</span></h3>
       <div style="display: flex; gap: 8px; align-items: center">
         <el-input
           v-model="keyword"
@@ -77,7 +77,10 @@
 import { ref, onMounted, computed } from "vue";
 import request from "@request";
 import { ElMessage } from "element-plus";
-import { get_margin_stocks, query_margin_data_by_code } from "@url";
+import {
+  get_margin_stocks,
+  query_margin_data_by_code,
+} from "@url";
 
 const etfList = ref([]);
 const keyword = ref("ETF"); // 默认值为ETF

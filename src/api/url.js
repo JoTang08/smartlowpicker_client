@@ -46,3 +46,6 @@ export const get_boards = domain + "/boards";
 export const get_board_members = domain + "/get_board_members";
 
 export const get_margin_stocks = domain + "/get_margin_stocks";
+
+export const query_latest_main_stock_holder =
+  domain + "/query_latest_main_stock_holder";
