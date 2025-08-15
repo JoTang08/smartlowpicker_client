@@ -8,6 +8,7 @@ import LowSignal from "../views/LowSignal.vue";
 import LowResult from "../views/LowResult.vue";
 import WatchedStocks from "../views/WatchedStocks.vue";
 import ETFPage from "../views/ETFPage.vue";
+import FundFlow from "../views/FundFlow.vue";
 
 const routes = [
   { path: "/", component: Home },
@@ -18,6 +19,7 @@ const routes = [
   { path: "/low-result", component: LowResult },
   { path: "/watched-stocks", component: WatchedStocks },
   { path: "/etf-page", component: ETFPage },
+  { path: "/fund-flow", component: FundFlow },
 ];
 
 export const router = createRouter({

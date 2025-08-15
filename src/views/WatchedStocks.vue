@@ -48,6 +48,14 @@
           >
             股东信息
           </el-button>
+          <el-button
+            type="primary"
+            size="small"
+            style="margin-left: 8px"
+            @click="goFundFlow(row.股票代码)"
+          >
+            查看资金流向
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -120,6 +128,9 @@ import {
   query_margin_data_by_code,
   query_latest_main_stock_holder,
 } from "@url";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const stocks = ref([]);
 const loading = ref(false);
@@ -247,7 +258,9 @@ const copyCsvToClipboard = async () => {
     ElMessage.error("复制失败，请手动复制");
   }
 };
-
+const goFundFlow = (code) => {
+  router.push({ path: "fund-flow", query: { code } });
+};
 onMounted(() => {
   fetchWatchedStocks();
 });

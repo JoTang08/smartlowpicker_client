@@ -49,3 +49,5 @@ export const get_margin_stocks = domain + "/get_margin_stocks";
 
 export const query_latest_main_stock_holder =
   domain + "/query_latest_main_stock_holder";
+
+export const query_fund_flow_by_code = domain + "/query_fund_flow_by_code";
