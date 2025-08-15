@@ -15,7 +15,7 @@
       <el-menu-item index="/low-result">结果展示</el-menu-item>
       <el-menu-item index="/watched-stocks">关注列表⭐️</el-menu-item>
       <el-menu-item index="/etf-page">ETF页面</el-menu-item>
-      <el-menu-item index="/fund-flow">资金流行</el-menu-item>
+      <el-menu-item index="/fund-flow">资金流动</el-menu-item>
     </el-sub-menu>
     <el-sub-menu index="3">
       <template #title>分区信息</template>

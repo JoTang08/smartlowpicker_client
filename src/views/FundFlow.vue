@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card shadow="hover">
-      <h2>💹 股票资金流信息</h2>
+      <h2>资金流信息</h2>
       <p>
         股票代码：<strong>{{ code }}</strong>
       </p>
@@ -22,8 +22,13 @@
         width="160"
         :formatter="(row) => formatDate(row.date)"
       />
-      <el-table-column prop="收盘价" label="收盘价" width="100" />
+      <el-table-column label="散户行为分析" width="300">
+        <template #default="scope">
+          {{ analyzeRetailBehavior(scope.row) }}
+        </template>
+      </el-table-column>
       <el-table-column prop="涨跌幅" label="涨跌幅(%)" width="100" />
+      <el-table-column prop="收盘价" label="收盘价" width="100" />
       <el-table-column
         prop="主力净流入-净额"
         label="主力净流入(元)"
@@ -74,11 +79,6 @@
         label="小单占比(%)"
         width="120"
       />
-      <el-table-column label="资金行为分析" width="300">
-        <template #default="scope">
-          {{ analyzeFundFlow(scope.row) }}
-        </template>
-      </el-table-column>
     </el-table>
 
     <el-empty v-else description="暂无资金流数据"></el-empty>
@@ -158,6 +158,23 @@ const analyzeFundFlow = (row) => {
 
   return `【原因】${reason} 【资金行为】${action}`;
 };
+function analyzeRetailBehavior(row) {
+  const mediumNet = row["中单净流入-净额"];
+  const smallNet = row["小单净流入-净额"];
+
+  const totalRetailNet = mediumNet + smallNet;
+  const reference = Math.max(Math.abs(mediumNet), Math.abs(smallNet)) || 1;
+  const frenzyRatio = Math.abs(totalRetailNet) / reference;
+
+  let behavior = "散户中性";
+  if (totalRetailNet > 0) {
+    behavior = frenzyRatio >= 1.5 ? "散户狂热买入" : "散户偏买入";
+  } else if (totalRetailNet < 0) {
+    behavior = frenzyRatio >= 1.5 ? "散户狂热卖出" : "散户偏卖出";
+  }
+
+  return { 行为: behavior, 狂热倍数: parseFloat(frenzyRatio.toFixed(2)) };
+}
 
 onMounted(() => {
   fetchFundFlow();
